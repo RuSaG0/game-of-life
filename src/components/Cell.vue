@@ -2,7 +2,7 @@
   <div
     :class="isAlive ? 'alive' : 'dead'"
     class="cell"
-    @mousedown="reborn(true)"
+    @mousedown="reborn"
   />
 </template>
 
@@ -11,34 +11,15 @@
 export default {
   name:"Cell",
   props: {
-    statusObj: {
-      type: Object,
-      default: () => ({
-        isAlive: false
-      })
+    isAlive: {
+      type: Boolean,
+      default: false
     },
   },
   emits: ['wasUpdated'],
-  data: function(){
-    return {
-      isAlive: false,
-    }
-  },
-  watch: {
-    'statusObj.isAlive': {
-      deep: true,
-      handler(_val){
-        this.isAlive = _val ?? false;
-      }
-    }
-  },
   methods: {
-    reborn(_bool) {
-      if (_bool) {
-        this.isAlive = !this.isAlive;
-        console.warn(this.isAlive);
-        this.$emit('wasUpdated', this.isAlive);
-      }
+    reborn() {
+      this.$emit('wasUpdated', !this.isAlive);
     },
   }
 }

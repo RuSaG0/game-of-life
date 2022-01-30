@@ -63,8 +63,7 @@
                     v-if="mainComponent == 'gamePage'"
                     :message="message"
                     :import-token="importToken"
-                    :current-speed="speed"
-                    @exportToken="exportSession($event)" />
+                    :current-speed="speed" />
                   <Info v-else />
                 </keep-alive>
               </transition>
@@ -122,65 +121,6 @@
           </div>
         </div>
       </footer>
-      <!-- Bulma - Modal -->
-      <transition
-        mode="out-in"
-        name="fade">
-        <div
-          v-if="isImport"
-          :class="isImport ? 'is-active' : 'inactive'"
-          class="modal">
-          <div class="modal-background" />
-          <div class="modal-card">
-            <header class="modal-card-head">
-              <p class="modal-card-title">
-                <span class="icon">
-                  <i class="far fa-edit"/>
-                </span>
-                <b>Import</b>
-              </p>
-              <button
-                class="delete"
-                aria-label="close"
-                @click="isImport = false" />
-            </header>
-            <section class="modal-card-body">
-              <textarea
-                v-model="importToken"
-                class="textarea is-primary"
-                type="text"
-                placeholder="Paste here" />
-            </section>
-            <footer class="modal-card-foot">
-              <button
-                class="button is-success"
-                @click="importSession">Import</button>
-              <button
-                class="button"
-                @click="isImport = false">Cancel</button>
-              <div class="field">
-                <p class="control has-icons-left">
-                  <span class="select" >
-                    <select v-model="selectedScenario">
-                      <option
-                        value="scenario"
-                        selected>Scenario</option>
-                      <option value="gosper">Gosper glider gun</option>
-                      <option value="multiple">Multiple patterns</option>
-                      <option value="chess">Chess board</option>
-                      <option value="mandala">Mandala</option>
-                    </select>
-                  </span>
-                  <span class="icon is-small is-left">
-                    <i
-                      class="fas fa-list-ul"
-                      style="color: #000" />
-                  </span>
-                </p>
-              </div>
-          </footer></div>
-        </div>
-      </transition>
     </section>
   </div>
 </template>
@@ -205,7 +145,6 @@ export default {
       exportToken: '',
       message: '',
       isRunning:false,
-      isImport: false,
       isNavbar: false,
       isExport:false
     }
@@ -241,10 +180,6 @@ export default {
       if (_event === 'play') {
         this.isRunning = !this.isRunning;
         this.restartInterval();
-      } else if (_event === 'importSession') {
-        this.isImport = true;
-      } else if (_event === 'exportSession') {
-        this.updateMessage('exportSession');
       } else if (_event === 'slowDown') {
         this.speed > 100 ? this.changeSpeed(-100) : this.changeSpeed(-20);
         this.restartInterval();
@@ -255,17 +190,9 @@ export default {
         this.updateMessage(_event);
       }
     },
-    importSession() {
-      this.updateMessage('importSession');
-      this.isImport = false;
-    },
     updateMessage(_newMessage) {
       this.message = _newMessage;
       nextTick(this.resetMessage);
-    },
-    exportSession(_exportToken) {
-      this.exportToken = _exportToken;
-      this.isExport = true;
     },
     resetMessage(){
       this.message = '';
@@ -341,16 +268,5 @@ body {
   border-top: 2px solid #414b5c;
   margin: 0px;
   bottom: 0;
-}
-
-// The transitions used to switch out my page components as well as
-// the import/export modal
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.35s linear;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
 }
 </style>

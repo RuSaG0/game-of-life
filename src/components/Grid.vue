@@ -18,7 +18,7 @@
         <Cell
           v-for="(isAlive, indexY) in col"
           :key="indexY"
-          :status-obj="isAlive"
+          :isAlive="isAlive"
           :is-mouse-down="isMouseDown"
           @wasUpdated="updateCellCount"
         />
@@ -51,7 +51,7 @@ export default {
   emits: ['exportToken'],
   data: function(){
     return {
-      width: 46,
+      width: 40,
       height: 20,
       gridList: [],
       cellsAlive: 0,
@@ -62,18 +62,14 @@ export default {
     }
   },
   watch: {
-    message: function(val) {
-      if (val === 'nextStep') {
+    message: function(_text) {
+      if (_text === 'nextStep') {
         this.update();
         this.currentTick++;
-      } else if (val === 'redoSession') {
+      } else if (_text === 'redoSession') {
         this.reset();
-      } else if (val === 'randomSeed') {
+      } else if (_text === 'randomSeed') {
         this.randomSeed();
-      } else if (val === 'importSession') {
-        this.importSession();
-      } else if (val === 'exportSession') {
-        this.exportSession();
       }
     },
   },
@@ -85,15 +81,15 @@ export default {
       for (let i = 0; i < this.width; i++) {
         this.gridList[i] = [];
         for (let j = 0; j < this.height; j++) {
-          this.gridList[i][j] = {isAlive: false};
+          this.gridList[i][j] = false;
         }
       }
       this.cellCount = this.width * this.height;
     },
-    setCell(x, y, alive) {
-      if (this.gridList[x][y].isAlive != alive) {
-        this.gridList[x][y].isAlive = alive;
-        this.updateCellCount(alive);
+    setCell(_x, _y, _alive) {
+      if (this.gridList[_x][_y] != _alive) {
+        this.gridList[_x][_y] = _alive;
+        this.updateCellCount(_alive);
       }
     },
     update() {
@@ -101,7 +97,7 @@ export default {
       for (let i = 0; i < this.width; i++) {
         tempArr[i] = [];
         for (let j = 0; j < this.height; j++) {
-          let status = this.gridList[i][j].isAlive;
+          let status = this.gridList[i][j];
           let neighbours = this.getNeighbours(i, j);
           let result = false;
           if (status && neighbours < 2) {
@@ -125,20 +121,20 @@ export default {
         }
       }
     },
-    getNeighbours(posX, posY) {
+    getNeighbours(_posX, _posY) {
       let neighbours = 0;
-      if (posX <= this.width && posY <= this.height) {
+      if (_posX <= this.width && _posY <= this.height) {
         for (let offsetX = -1; offsetX < 2; offsetX++) {
           for (let offsetY = -1; offsetY < 2; offsetY++) {
-            let newX = posX + offsetX;
-            let newY = posY + offsetY;
+            let newX = _posX + offsetX;
+            let newY = _posX + offsetY;
             if (
               (offsetX != 0 || offsetY != 0) &&
               newX >= 0 &&
               newX < this.width &&
               newY >= 0 &&
               newY < this.height &&
-              this.gridList[posX + offsetX][posY + offsetY].isAlive == true
+              this.gridList[_posX + offsetX][_posY + offsetY] == true
             ) {
               neighbours++;
             }
@@ -152,9 +148,7 @@ export default {
       this.cellsAlive = 0;
       this.cellsCreated = 0;
       this.gridList.forEach((col) => {
-        col.forEach((cell) => {
-          cell.isAlive = false;
-        });
+        col.forEach(_cell => _cell.fill(false));
       });
     },
     randomSeed() {
@@ -169,36 +163,13 @@ export default {
         }
       }
     },
-    importSession() {
-      this.reset();
-      let regex = /\[\d+,\d+\]/gm;
-      let tempArr = this.importToken.match(regex);
-      if (tempArr) {
-        tempArr.forEach((element) => {
-          element = element.substring(1, element.length - 1);
-          let xy = element.split(',');
-          this.setCell(+xy[0], +xy[1], true);
-        });
-      }
-    },
-    exportSession() {
-      let exportToken = '';
-      for (let i = 0; i < this.width; i++) {
-        for (let j = 0; j < this.height; j++) {
-          if (this.gridList[i][j].isAlive) {
-            exportToken += '[' + i + ',' + j + ']';
-          }
-        }
-      }
-      this.$emit('exportToken', exportToken);
-    },
-    updateCellCount(bool) {
-      if (bool) {
+    updateCellCount(_bool) {
+      if (_bool) {
         this.cellsAlive++;
         this.cellsCreated++;
-      } else {
-        this.cellsAlive--;
       }
+      else
+        this.cellsAlive--;
     },
   },
 }

@@ -54,28 +54,6 @@
           <b>Random</b>
       </button></p>
     </div>
-    <div class="field has-addons has-addons-centered is-marginless">
-      <p class="control">
-        <button
-          :disabled="mainComponent !== 'gamePage'"
-          class="button"
-          @click="sendEvent('importSession')">
-          <span class="icon">
-            <i class="far fa-edit"/>
-          </span>
-          <b>Import</b>
-      </button></p>
-      <p class="control">
-        <button
-          :disabled="mainComponent !== 'gamePage'"
-          class="button"
-          @click="sendEvent('exportSession')">
-          <span class="icon">
-            <i class="far fa-save"/>
-          </span>
-          <b>Export</b>
-      </button></p>
-    </div>
   </div>
 </template>
 
