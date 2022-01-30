@@ -1,7 +1,6 @@
 <template>
 <div class="GOL">
     <section class="hero primary-background">
-
       <div class="hero-head">
         <nav class="navbar">
           <div class="container">

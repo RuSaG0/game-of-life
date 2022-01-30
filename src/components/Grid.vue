@@ -3,7 +3,8 @@
     :current-tick="currentTick"
     :cell-count="matrixSize"
     :cells-alive="cellsAlive"
-    :current-speed="currentSpeed"/>
+    :current-speed="currentSpeed"
+    :isCycled="isCycled" />
   <div
     class="game-grid columns">
     <div
@@ -27,6 +28,12 @@
 import Stats from './Stats.vue'
 import Cell from './Cell.vue'
 
+// Utils
+import CycleDetector from '../utils/cycleDetector';
+
+// Core
+import {markRaw} from 'vue';
+
 export default {
   components: { Stats, Cell },
   props: {
@@ -47,6 +54,8 @@ export default {
       matrix: [],
       cellsAlive: 0,
       currentTick: 0,
+      cycleDetector: markRaw(new CycleDetector()),
+      isCycled: false
     }
   },
   watch: {
@@ -55,6 +64,7 @@ export default {
         this.cellsAlive = 0;
         this.updateMatrixByEvolution();
         this.currentTick++;
+        this.isCycled = this.isCycled || this.cycleDetector.isCycled(this.matrix);
       } else if (_text === 'redoSession') {
         this.reset();
       } else if (_text === 'randomSeed') {

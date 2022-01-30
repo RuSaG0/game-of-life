@@ -12,6 +12,9 @@
       <div class="column is-size-7-mobile is-half-mobile">
         <strong>speed: {{ currentSpeed }} %</strong>
       </div>
+      <div class="column is-size-7-mobile is-half-mobile" v-if="isCycled">
+        <strong>Oooops, it looped ;)</strong>
+      </div>
   </div>
 </template>
 
@@ -35,6 +38,9 @@ export default {
       default: 0,
       type: Number,
     },
+    isCycled: {
+      default: false
+    }
   },
 }
 </script>
