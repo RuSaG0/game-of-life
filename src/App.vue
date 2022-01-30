@@ -165,3 +165,63 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+html,
+body {
+  background-image: linear-gradient(
+    to right top,
+    #ffd464,
+    #ff9766,
+    #e4667e,
+    #a34d91,
+    #42448c
+  );
+  color: #000;
+  font-family: "Dosis", Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0px;
+}
+#app {
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #fff;
+}
+
+.hero-body {
+  align-items: stretch !important;
+  padding-top: 18px;
+  padding-bottom: 12px;
+}
+
+
+
+.footer {
+  padding: 1rem;
+  background-color: transparent;
+}
+
+.navbar-item {
+  color: #ff9766;
+}
+
+.hr {
+  position: relative;
+  border-top: 2px solid #414b5c;
+  margin: 0px;
+  bottom: 0;
+}
+
+// The transitions used to switch out my page components as well as
+// the import/export modal
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.35s linear;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
