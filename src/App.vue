@@ -1,7 +1,7 @@
 <template>
 <div class="GOL">
-    <section class="hero primary-background is-fullheight">
-      <!-- Bulma - Hero head -->
+    <section class="hero primary-background">
+
       <div class="hero-head">
         <nav class="navbar">
           <div class="container">
@@ -24,37 +24,14 @@
                 <span/>
               </span>
             </div>
-            <div
-              id="navbarMenuHeroA"
-              :class="{ 'is-active': isNavbar }"
-              class="navbar-menu">
-              <div class="navbar-end">
-                <a
-                  class="navbar-item"
-                  @click="swapComponent('gamePage')">
-                  <span class="icon">
-                    <i class="fas fa-gamepad"/>
-                  </span>
-                  <span>GAME</span>
-                </a>
-                <a
-                  class="navbar-item"
-                  @click="swapComponent('infoPage')">
-                  <span class="icon">
-                    <i class="fas fa-info"/>
-                  </span>
-                  <span>INFO</span>
-                </a>
-              </div>
-            </div>
           </div>
         </nav>
       </div>
-      <!-- Bulma - Hero content -->
+
       <div class="hero-body">
-        <div class="container is-paddingless">
-          <div class="columns box is-fullwidth is-gapless">
-            <div class="column is-12">
+        <div class="container">
+          <div class="columns box">
+            <div class="column">
               <transition
                 mode="out-in"
                 name="fade">
@@ -70,7 +47,7 @@
           </div>
         </div>
       </div>
-      <!-- Bulma - Hero footer -->
+
       <footer class="footer">
         <div class="container">
           <div class="columns">
@@ -174,22 +151,14 @@ body {
     #42448c
   );
   color: #000;
-  font-family: "Dosis", Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   margin: 0px;
 }
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   color: #fff;
 }
-
 .hero-body {
-  align-items: stretch !important;
-  padding-top: 18px;
-  padding-bottom: 12px;
+  padding: 1rem;
+  margin: 1rem;
 }
 
 

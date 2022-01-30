@@ -1,6 +1,5 @@
 <template>
    <div class="box">
-    <div class="columns is-fullwidth is-gapless">
       <div class="column is-size-7-mobile is-half-mobile">
         <strong>TICK: {{ currentTick }}</strong>
       </div>
@@ -11,12 +10,8 @@
         <strong>CELLS ALIVE: {{ cellsAlive }}</strong>
       </div>
       <div class="column is-size-7-mobile is-half-mobile">
-        <strong>CELLS CREATED: {{ cellsCreated }}</strong>
-      </div>
-      <div class="column is-size-7-mobile is-half-mobile">
         <strong>SPEED: {{ currentSpeed }} %</strong>
       </div>
-    </div>
   </div>
 </template>
 
@@ -36,10 +31,6 @@ export default {
       default: 0,
       type: Number,
     },
-    cellsCreated: {
-      default: 0,
-      type: Number,
-    },
     currentSpeed: {
       default: 0,
       type: Number,
@@ -51,6 +42,11 @@ export default {
 <style scoped lang="scss">
 .box {
   background-color: #e7eef5;
+  color:black;
+  display: flex;
+  align-items:center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
 }
 .columns {
   display: flex;

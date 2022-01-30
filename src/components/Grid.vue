@@ -1,29 +1,23 @@
 <template>
-  <div>
-    <Stats
-      :current-tick="currentTick"
-      :cell-count="cellCount"
-      :cells-alive="cellsAlive"
-      :cells-created="cellsCreated"
-      :current-speed="currentSpeed"/>
+  <Stats
+    :current-tick="currentTick"
+    :cell-count="matrixSize"
+    :cells-alive="cellsAlive"
+    :current-speed="currentSpeed"/>
+  <div
+    class="game-grid columns">
     <div
-      class="game-grid columns"
-      @mousedown="isMouseDown = true"
-      @mouseup="isMouseDown = false"
-      @mouseleave="isMouseDown = false">
-      <div
-        v-for="(col, indexX) in gridList"
-        :key="indexX"
-        class="game-column">
-        <Cell
-          v-for="(isAlive, indexY) in col"
-          :key="indexY"
-          :indexY="indexY"
-          :indexX="indexX"
-          :isAlive="isAlive"
-          @wasUpdated="setCell"
-        />
-      </div>
+      v-for="(col, indexX) in matrix"
+      :key="indexX"
+      class="game-column">
+      <Cell
+        v-for="(isAlive, indexY) in col"
+        :key="indexY"
+        :indexY="indexY"
+        :indexX="indexX"
+        :isAlive="isAlive"
+        @wasUpdated="changeCellValue"
+      />
     </div>
   </div>
 </template>
@@ -48,53 +42,55 @@ export default {
   emits: ['exportToken'],
   data: function(){
     return {
-      width: 40,
-      height: 20,
-      gridList: [],
+      rows: 40,
+      columns: 20,
+      matrix: [],
       cellsAlive: 0,
-      cellsCreated: 0,
-      cellCount: 0,
       currentTick: 0,
-      isMouseDown: false,
     }
   },
   watch: {
     message: function(_text) {
       if (_text === 'nextStep') {
-        this.update();
+        this.updateMatrixByEvolution();
         this.currentTick++;
       } else if (_text === 'redoSession') {
         this.reset();
       } else if (_text === 'randomSeed') {
-        this.randomSeed();
+        this.fillMatrixByRandom();
       }
     },
   },
   mounted(){
-    this.cellCalc();
+    this.createFalsyMatrix();
   },
- methods: {
-    cellCalc() {
-      for (let i = 0; i < this.width; i++) {
-        this.gridList[i] = [];
-        for (let j = 0; j < this.height; j++) {
-          this.gridList[i][j] = false;
+  computed: {
+    matrixSize() {
+      if(typeof this.rows === 'number' && typeof this.columns === 'number')
+        return this.rows * this.columns;
+      else
+        return 0;
+    }
+  },
+  methods: {
+    createFalsyMatrix() {
+      for (let i = 0; i < this.rows; i++) {
+        this.matrix[i] = [];
+        for (let j = 0; j < this.columns; j++) {
+          this.matrix[i][j] = false;
         }
       }
-      this.cellCount = this.width * this.height;
     },
-    setCell(_x, _y, _alive) {
-      if (this.gridList[_x][_y] != _alive) {
-        this.gridList[_x][_y] = _alive;
-        this.updateCellCount(_alive);
-      }
+    changeCellValue(_x, _y, _alive) {
+      this.matrix[_x][_y] = _alive;
+      this.updateCellCount(_alive);
     },
-    update() {
+    updateMatrixByEvolution() {
       let tempArr = [];
-      for (let i = 0; i < this.width; i++) {
+      for (let i = 0; i < this.rows; i++) {
         tempArr[i] = [];
-        for (let j = 0; j < this.height; j++) {
-          let status = this.gridList[i][j];
+        for (let j = 0; j < this.columns; j++) {
+          let status = this.matrix[i][j];
           let neighbours = this.getNeighbours(i, j);
           let result = false;
           if (status && neighbours < 2) {
@@ -112,15 +108,15 @@ export default {
           tempArr[i][j] = result;
         }
       }
-      for (let i = 0; i < this.width; i++) {
-        for (let j = 0; j < this.height; j++) {
-          this.setCell(i, j, tempArr[i][j]);
+      for (let i = 0; i < this.rows; i++) {
+        for (let j = 0; j < this.columns; j++) {
+          this.changeCellValue(i, j, tempArr[i][j]);
         }
       }
     },
     getNeighbours(_posX, _posY) {
       let neighbours = 0;
-      if (_posX <= this.width && _posY <= this.height) {
+      if (_posX <= this.rows && _posY <= this.columns) {
         for (let offsetX = -1; offsetX < 2; offsetX++) {
           for (let offsetY = -1; offsetY < 2; offsetY++) {
             let newX = _posX + offsetX;
@@ -128,10 +124,10 @@ export default {
             if (
               (offsetX != 0 || offsetY != 0) &&
               newX >= 0 &&
-              newX < this.width &&
+              newX < this.rows &&
               newY >= 0 &&
-              newY < this.height &&
-              this.gridList[_posX + offsetX][_posY + offsetY] == true
+              newY < this.columns &&
+              this.matrix[_posX + offsetX][_posY + offsetY] == true
             ) {
               neighbours++;
             }
@@ -143,28 +139,23 @@ export default {
     reset() {
       this.currentTick = 0;
       this.cellsAlive = 0;
-      this.cellsCreated = 0;
-      this.gridList.forEach((col) => {
-        col.forEach(_cell => _cell.fill(false));
-      });
+      this.createFalsyMatrix();
     },
-    randomSeed() {
-      for (let i = 0; i < this.width; i++) {
-        for (let j = 0; j < this.height; j++) {
+    fillMatrixByRandom() {
+      for (let i = 0; i < this.rows; i++) {
+        for (let j = 0; j < this.columns; j++) {
           let rand = Math.random();
           if (rand < 0.2) {
-            this.setCell(i, j, true);
+            this.changeCellValue(i, j, true);
           } else {
-            this.setCell(i, j, false);
+            this.changeCellValue(i, j, false);
           }
         }
       }
     },
     updateCellCount(_bool) {
-      if (_bool) {
+      if (_bool)
         this.cellsAlive++;
-        this.cellsCreated++;
-      }
       else
         this.cellsAlive--;
     },
@@ -179,6 +170,10 @@ export default {
   display: flex;
   flex: 1;
   justify-content: center;
+  align-items: center;
+  max-width: 60%;
+  max-height: 60%;
+  margin: auto;
 }
 .game-column {
   flex: 1;
