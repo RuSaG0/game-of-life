@@ -1,21 +1,45 @@
-import { createApp } from 'vue'
-import App from './App.vue'
+import * as Vue from "vue";
 
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { fas } from '@fortawesome/free-solid-svg-icons'
-import { fab } from '@fortawesome/free-brands-svg-icons'
-import { far } from '@fortawesome/free-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { dom } from '@fortawesome/fontawesome-svg-core'
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 
+import TopLevelAppViewModule from "./modules/topLevelAppView/topLevelAppViewModule";
+import Application from "./infrastructure/app/application";
+import AppConfigurationProviderModule from "./modules/appConfigurationProvider/appConfigurationProviderModule";
+import MainMenuModule from "./modules/mainMenu/mainMenuModule";
 
-const app = createApp(App)
+import GamePack from './modules/game/gameModule';
+import InfoPack from './modules/info/infoModule';
 
-library.add(fas)
-library.add(fab)
-library.add(far)
-app.component('font-awesome-icon', FontAwesomeIcon)
+// *********************************************************
+// Setup version
+// *********************************************************
+window.Vue = Vue;
+// ************************
+// Creating application
+// ************************
+const app = new Application();
 
-dom.watch()
+// ************************
+// Installing modules
+// ************************
+const appLogUngroup = app.log.groupCollapsed('configure');
+app
+  .use(new AppConfigurationProviderModule())
 
-createApp(App).mount('#app')
+// -----------------------------------
+// App View
+// -----------------------------------
+app
+  .use(new TopLevelAppViewModule())
+  .use(new MainMenuModule())
+  
+// Game
+app
+  .use(new GamePack())
+// Info
+app
+  .use(new InfoPack())
+
+appLogUngroup();
+setTimeout(async () => await app.runAsync(), 0);
