@@ -1,0 +1,139 @@
+@mixin Page__content {
+  margin: 0 auto 50px;
+  //max-width: 1500px;
+  padding-right: 30px;
+  flex:1;
+}
+
+// First level mixins
+@mixin Text {
+  font-family: Roboto, sans-serif;
+  font-size: 1rem;
+  line-height: 130%;
+}
+
+@mixin Heading {
+  @include Text;
+  @include Transition;
+  line-height: 150%;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--text100);
+  font-size: 1rem;
+}
+
+@mixin Paragraph {
+  @include Text;
+  margin: 0;
+  color: var(--text80);
+}
+
+@mixin ParagraphMultiLine {
+  @include Paragraph;
+  text-indent: 30px;
+}
+
+@mixin Button {
+  @include Text;
+  @include Transition;
+  //min-width: 140px;
+  min-height: 35px;
+  padding:5px;
+  border: none;
+  border-radius: 5px;
+  &:hover {
+    cursor: pointer;
+  }
+  &:focus{
+    outline: none;
+  }
+}
+
+@mixin Links {
+  @include Text;
+  @include Transition;
+  text-decoration-line: underline;
+  &:not([disabled]):hover {
+    cursor: pointer;
+  }
+}
+
+
+@mixin Link {
+  @include Links;
+  margin: 0;
+  color: var(--primary100);
+  &:not([disabled]):hover {
+    color: var(--accent80);
+  }
+}
+
+// Buttons
+@mixin normalButton {
+  @include Button;
+  background-color: var(--primary100);
+  color: var(--primaryText100);
+  &:hover{
+    cursor: pointer;
+    background-color: var(--accent80);
+  }
+}
+
+@mixin errorButton {
+@include Button;
+background-color: transparent;
+color: var(--error80);
+border:1px solid var(--error80);
+&:hover{
+  cursor: pointer;
+  background-color: var(--error100);
+  color: var(--primaryText100);
+  border:1px solid var(--error100);
+}
+}
+
+@mixin disabledButton {
+  @include Button;
+  background-color: var(--back60);
+  color: var(--text100);
+  &:hover{
+    cursor: default;
+    background-color: var(--back60);
+  }
+}
+
+// Headings
+@mixin Heading__1 {
+  @include Heading;
+  margin-top: 50px;
+  margin-bottom: 70px;
+  font-size: 2rem;
+}
+
+@mixin Heading__2 {
+  @include Heading;
+  margin: 40px 0;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+@mixin Heading__3 {
+  @include Heading;
+  margin: 30px 0;
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+@mixin Heading__4 {
+  @include Heading;
+  font-size: 1rem;
+  line-height: 130%;
+}
+
+@mixin Heading__5 {
+  @include Heading;
+  margin: 30px 0;
+  font-size: 1rem;
+  line-height: 130%;
+  text-transform: none;
+}

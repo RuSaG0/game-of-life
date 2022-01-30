@@ -18,7 +18,6 @@ export default class {
       path: '/info',
       name: 'info',
       component: InfoPage,
-      props: true,
     });
   }
 

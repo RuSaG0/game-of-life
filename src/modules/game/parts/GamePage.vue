@@ -1,32 +1,6 @@
 <template>
 <div class="GOL">
     <section class="hero primary-background">
-      <div class="hero-head">
-        <nav class="navbar">
-          <div class="container">
-            <div class="navbar-brand">
-              <a
-                class="navbar-item"
-                style="color: #fff">
-                <span class="icon">
-                  <i class="fas fa-heartbeat"/>
-                </span>
-                <span><strong>GAME OF LIFE</strong></span>
-              </a>
-              <span
-                :class="{'is-active': isNavbar}"
-                class="navbar-burger burger"
-                data-target="navbarMenuHeroA"
-                @click="isNavbar = !isNavbar">
-                <span/>
-                <span/>
-                <span/>
-              </span>
-            </div>
-          </div>
-        </nav>
-      </div>
-
       <div class="hero-body">
         <div class="container">
           <div class="columns box">
@@ -80,13 +54,6 @@ export default {
     }
   },
   methods:{
-    toClipboard() {
-      this.isExport = false;
-      let copyString = document.querySelector('#copystring');
-      copyString.setAttribute('type', 'text');
-      copyString.select();
-      document.execCommand('copy');
-    },
     delegate(_event) {
       if (_event === 'play') {
         this.isRunning = !this.isRunning;
@@ -133,25 +100,17 @@ export default {
 <style lang="scss">
 html,
 body {
-  background-image: linear-gradient(
-    to right top,
-    #ffd464,
-    #ff9766,
-    #e4667e,
-    #a34d91,
-    #42448c
-  );
   color: #000;
   margin: 0px;
 }
 #app {
   color: #fff;
 }
+
 .hero-body {
   padding: 1rem;
   margin: 1rem;
 }
-
 
 
 .footer {

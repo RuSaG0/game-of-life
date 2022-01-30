@@ -2,10 +2,17 @@
  <div class="box">
     <p class="control">
       <button
-        class="button"
+        class="m-button"
         title="slow down"
         @click="sendEvent('slowDown')">
-        <i class="fas fa-backward"/>
+        <b>Slow</b>
+    </button></p>
+    <p class="control">
+      <button
+        class="button"
+        title="speed up"
+        @click="sendEvent('speedUp')">
+        <b>Speed up</b>
     </button></p>
     <p class="control">
       <button
@@ -13,37 +20,26 @@
         class="button"
         title="play"
         @click="sendEvent('play')">
-        <font-awesome-icon v-show="isRunning" :icon="['fas', 'stop']"></font-awesome-icon>
-        <font-awesome-icon v-show="!isRunning" :icon="['fas', 'play']"></font-awesome-icon>
+        <b>Play / stop</b>
     </button></p>
     <p class="control">
       <button
         class="button"
         title="Create new one"
         @click="sendEvent('clear')">
-        <i class="fas fa-redo"/>
+        <b>Clear</b>
     </button></p>
     <p class="control">
       <button
         class="button"
         title="next step"
         @click="sendEvent('nextStep')">
-        <i class="fas fa-step-forward"/>
-    </button></p>
-    <p class="control">
-      <button
-        class="button"
-        title="speed up"
-        @click="sendEvent('speedUp')">
-        <i class="fas fa-forward"/>
+        <b>Next step</b>
     </button></p>
     <p class="control">
       <button
         class="button"
         @click="sendEvent('randomSeed')">
-        <span class="icon">
-          <i class="fas fa-random"/>
-        </span>
         <b>Random</b>
     </button></p>
   </div>
