@@ -61,6 +61,22 @@ export default {
       isMouseDown: false,
     }
   },
+  watch: {
+    message: function(val) {
+      if (val === 'nextStep') {
+        this.update();
+        this.currentTick++;
+      } else if (val === 'redoSession') {
+        this.reset();
+      } else if (val === 'randomSeed') {
+        this.randomSeed();
+      } else if (val === 'importSession') {
+        this.importSession();
+      } else if (val === 'exportSession') {
+        this.exportSession();
+      }
+    },
+  },
   mounted(){
     this.cellCalc();
   },
