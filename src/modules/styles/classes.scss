@@ -1,0 +1,45 @@
+// Class binding
+.m-h1 {
+  @include Heading__1;
+}
+
+.m-h2 {
+  @include Heading__2;
+}
+
+.m-h3 {
+  @include Heading__3;
+}
+
+.m-h4 {
+  @include Heading__4;
+}
+
+.m-h5 {
+  @include Heading__5;
+}
+
+.m-p {
+  @include Paragraph;
+}
+
+
+.m-button {
+  @include normalButton;
+}
+
+.m-button-error {
+  @include errorButton;
+}
+
+.m-button-disabled {
+  @include disabledButton;
+}
+
+.m-a {
+  @include Link;
+}
+
+.m-page-content {
+  @include Page__content;
+}

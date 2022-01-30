@@ -1,7 +1,6 @@
 @mixin Page__content {
-  margin: 0 auto 50px;
-  //max-width: 1500px;
-  padding-right: 30px;
+  margin: 20px auto;
+  max-width: 1500px;
   flex:1;
 }
 
@@ -14,7 +13,6 @@
 
 @mixin Heading {
   @include Text;
-  @include Transition;
   line-height: 150%;
   font-weight: bold;
   text-transform: uppercase;
@@ -35,7 +33,6 @@
 
 @mixin Button {
   @include Text;
-  @include Transition;
   //min-width: 140px;
   min-height: 35px;
   padding:5px;
@@ -51,7 +48,6 @@
 
 @mixin Links {
   @include Text;
-  @include Transition;
   text-decoration-line: underline;
   &:not([disabled]):hover {
     cursor: pointer;

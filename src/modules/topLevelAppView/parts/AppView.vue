@@ -1,31 +1,33 @@
 <template>
-  <div class="dynamicsComponents">
-    <div
-        class="dynamicsComponents__left"
-        :style="{width: width + 'px'}"
-    >
-        <template
-            v-for="item in $store.state.mainMenu"
-            :key="item.id"
-        >
-          <div class="dynamicsComponents__left__item dynamicsComponents__left__item__current"
+  <div class="m-page-content">
+    <div class="dynamicsComponents">
+      <div
+          class="dynamicsComponents__left"
+          :style="{width: width + 'px'}"
+      >
+          <template
+              v-for="item in $store.state.mainMenu"
+              :key="item.id"
           >
-            <template v-if="item.component">
-              <component :is="item.component"/>
-            </template>
-            <template v-else>
-              <router-link
-                  :to="item.link"
-                  class="router__link"
-              >
-                <span class="left__item__link"> {{ item.title }} </span>
-              </router-link>
-            </template>
-          </div>
-        </template>
-    </div>
+            <div class="dynamicsComponents__left__item dynamicsComponents__left__item__current"
+            >
+              <template v-if="item.component">
+                <component :is="item.component"/>
+              </template>
+              <template v-else>
+                <router-link
+                    :to="item.link"
+                    class="router__link"
+                >
+                  <span class="left__item__link"> {{ item.title }} </span>
+                </router-link>
+              </template>
+            </div>
+          </template>
+      </div>
     </div>
     <router-view />
+  </div>
 </template>
 
 <script>
@@ -34,7 +36,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import "../../styles/total.scss";
 
 @font-face {

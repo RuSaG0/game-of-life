@@ -1,47 +1,55 @@
 <template>
- <div class="box">
-    <p class="control">
-      <button
-        class="m-button"
-        title="slow down"
-        @click="sendEvent('slowDown')">
-        <b>Slow</b>
-    </button></p>
-    <p class="control">
-      <button
-        class="button"
-        title="speed up"
-        @click="sendEvent('speedUp')">
-        <b>Speed up</b>
-    </button></p>
-    <p class="control">
-      <button
-        :class="isRunning ? 'green' : 'red'"
-        class="button"
-        title="play"
-        @click="sendEvent('play')">
-        <b>Play / stop</b>
-    </button></p>
-    <p class="control">
-      <button
-        class="button"
-        title="Create new one"
-        @click="sendEvent('clear')">
-        <b>Clear</b>
-    </button></p>
-    <p class="control">
-      <button
-        class="button"
-        title="next step"
-        @click="sendEvent('nextStep')">
-        <b>Next step</b>
-    </button></p>
-    <p class="control">
-      <button
-        class="button"
-        @click="sendEvent('randomSeed')">
-        <b>Random</b>
-    </button></p>
+  <div class="box">
+  <button
+    class="m-button"
+    @click="sendEvent('slowDown')">
+    Slow
+  </button>
+
+  <button
+    class="m-button"
+    @click="sendEvent('speedUp')">
+      Speed up
+    </button>
+
+  <template v-if="isRunning">
+    <button
+      class="m-button-error"
+      @click="sendEvent('play')">
+      Stop
+    </button>
+  </template>
+
+  <template v-else>
+    <button
+      class="m-button"
+      title="play"
+      @click="sendEvent('play')">
+      Play
+    </button>
+  </template>
+
+  <button
+    class="m-button-error"
+    title="play"
+    @click="sendEvent('clear')">
+    Clear
+  </button>
+
+  <button
+    class="m-button"
+    title="play"
+    @click="sendEvent('nextStep')">
+    Next step
+  </button>
+
+  <button
+    class="m-button"
+    title="play"
+    @click="sendEvent('randomSeed')">
+    Random
+  </button>
+
   </div>
 </template>
 
@@ -71,11 +79,5 @@ export default {
     align-items: center;
     justify-content: space-between;
     background: white;
-  }
-  .green {
-    background-color: hsla(120, 77%, 26%, 0.6);
-  }
-  .red {
-    background-color: hsla(0, 67%, 31%, 0.6);
   }
 </style>

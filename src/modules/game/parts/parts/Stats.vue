@@ -4,9 +4,6 @@
         <strong>gen # {{ currentTick }}</strong>
       </div>
       <div class="column is-size-7-mobile is-half-mobile">
-        <strong>max: {{ cellCount }}</strong>
-      </div>
-      <div class="column is-size-7-mobile is-half-mobile">
         <strong>alive: {{ cellsAlive }} ({{Math.round(cellsAlive * 100 / cellCount) }} %)</strong>
       </div>
       <div class="column is-size-7-mobile is-half-mobile">
