@@ -1,102 +1,213 @@
 <template>
-  <div class="GOL">
-    <!-- HEAD -->
-    <div class="hero-head">
-      <nav class="navbar">
-        <div class="container">
-          <div class="navbar-brand">
-            <a
-              class="navbar-item"
-              style="color: #fff">
-              <span class="icon">
-                <i class="fas fa-heartbeat"/>
+<div class="GOL">
+    <section class="hero primary-background is-fullheight">
+      <!-- Bulma - Hero head -->
+      <div class="hero-head">
+        <nav class="navbar">
+          <div class="container">
+            <div class="navbar-brand">
+              <a
+                class="navbar-item"
+                style="color: #fff">
+                <span class="icon">
+                  <i class="fas fa-heartbeat"/>
+                </span>
+                <span><strong>GAME OF LIFE</strong></span>
+              </a>
+              <span
+                :class="{'is-active': isNavbar}"
+                class="navbar-burger burger"
+                data-target="navbarMenuHeroA"
+                @click="isNavbar = !isNavbar">
+                <span/>
+                <span/>
+                <span/>
               </span>
-              <span><strong>GAME OF LIFE</strong></span>
-            </a>
-            <span
-              :class="{'is-active': isNavbar}"
-              class="navbar-burger burger"
-              data-target="navbarMenuHeroA"
-              @click="isNavbar = !isNavbar">
-              <span/>
-              <span/>
-              <span/>
-            </span>
-          </div>
-          <div
-            id="navbarMenuHeroA"
-            :class="{ 'is-active': isNavbar }"
-            class="navbar-menu">
-            <div class="navbar-end">
-              <a
-                class="navbar-item"
-                @click="swapComponent('gamePage')">
-                <span class="icon">
-                  <i class="fas fa-gamepad"/>
-                </span>
-                <span>GAME</span>
-              </a>
-              <a
-                class="navbar-item"
-                @click="swapComponent('infoPage')">
-                <span class="icon">
-                  <i class="fas fa-info"/>
-                </span>
-                <span>INFO</span>
-              </a>
-              <span class="navbar-item">
+            </div>
+            <div
+              id="navbarMenuHeroA"
+              :class="{ 'is-active': isNavbar }"
+              class="navbar-menu">
+              <div class="navbar-end">
                 <a
-                  class="button is-info"
-                  href="https://github.com/Ijee/Game-of-Life-Vue"
-                  target="_blank"
-                  rel="noopener">
+                  class="navbar-item"
+                  @click="swapComponent('gamePage')">
                   <span class="icon">
-                    <i class="fab fa-github"/>
+                    <i class="fas fa-gamepad"/>
                   </span>
-                  <span>Ijee</span>
+                  <span>GAME</span>
                 </a>
-              </span>
+                <a
+                  class="navbar-item"
+                  @click="swapComponent('infoPage')">
+                  <span class="icon">
+                    <i class="fas fa-info"/>
+                  </span>
+                  <span>INFO</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+      <!-- Bulma - Hero content -->
+      <div class="hero-body">
+        <div class="container is-paddingless">
+          <div class="columns box is-fullwidth is-gapless">
+            <div class="column is-12">
+              <transition
+                mode="out-in"
+                name="fade">
+                <keep-alive>
+                  <Grid
+                    v-if="mainComponent == 'gamePage'"
+                    :message="message"
+                    :import-token="importToken"
+                    :current-speed="speed"
+                    @exportToken="exportSession($event)" />
+                  <Info v-else />
+                </keep-alive>
+              </transition>
+            </div>
+          </div>
+          <!-- Bulma - Notification -->
+          <transition
+            mode="out-in"
+            name="fade">
+            <div
+              v-if="isExport"
+              class="columns">
+              <div class="column is-6 is-offset-3">
+                <div class="notification">
+                  <h6 class="title is-6">
+                    <i class="far fa-save"/>
+                    Export
+                  </h6>
+                  <button
+                    class="delete"
+                    @click="isExport = false" />
+                  <div class="field has-addons">
+                    <div class="control is-expanded">
+                      <input
+                        id="copystring"
+                        v-model="exportToken"
+                        type="text"
+                        class="input is-info is-rounded"
+                        @focus="$event.target.select()">
+                    </div>
+                    <div class="control">
+                      <a
+                        class="button is-dark"
+                        @click="toClipboard">
+                        <i class="fas fa-paste" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </transition>
+        </div>
+      </div>
+      <!-- Bulma - Hero footer -->
+      <footer class="footer">
+        <div class="container">
+          <div class="columns">
+            <div class="column is-fullwidth">
+              <Controller
+                :is-running="isRunning"
+                :main-component="mainComponent"
+                @send="delegate($event)"/>
             </div>
           </div>
         </div>
-      </nav>
-    </div>
-
-    <!--Component -->
+      </footer>
+      <!-- Bulma - Modal -->
+      <transition
+        mode="out-in"
+        name="fade">
+        <div
+          v-if="isImport"
+          :class="isImport ? 'is-active' : 'inactive'"
+          class="modal">
+          <div class="modal-background" />
+          <div class="modal-card">
+            <header class="modal-card-head">
+              <p class="modal-card-title">
+                <span class="icon">
+                  <i class="far fa-edit"/>
+                </span>
+                <b>Import</b>
+              </p>
+              <button
+                class="delete"
+                aria-label="close"
+                @click="isImport = false" />
+            </header>
+            <section class="modal-card-body">
+              <textarea
+                v-model="importToken"
+                class="textarea is-primary"
+                type="text"
+                placeholder="Paste here" />
+            </section>
+            <footer class="modal-card-foot">
+              <button
+                class="button is-success"
+                @click="importSession">Import</button>
+              <button
+                class="button"
+                @click="isImport = false">Cancel</button>
+              <div class="field">
+                <p class="control has-icons-left">
+                  <span class="select" >
+                    <select v-model="selectedScenario">
+                      <option
+                        value="scenario"
+                        selected>Scenario</option>
+                      <option value="gosper">Gosper glider gun</option>
+                      <option value="multiple">Multiple patterns</option>
+                      <option value="chess">Chess board</option>
+                      <option value="mandala">Mandala</option>
+                    </select>
+                  </span>
+                  <span class="icon is-small is-left">
+                    <i
+                      class="fas fa-list-ul"
+                      style="color: #000" />
+                  </span>
+                </p>
+              </div>
+          </footer></div>
+        </div>
+      </transition>
+    </section>
   </div>
-  <Grid 
-    :message="message"
-    :current-speed="speed"
-    />
-    <footer>
-      <Controller 
-        :is-running="isRunning"
-        :main-component="mainComponent"
-        @send="delegate($event)" /> 
-    </footer>
 </template>
 
 <script>
-import Controller from './components/Controller.vue'
 // Components
+import Controller from './components/Controller.vue'
+import Info from './components/Info.vue'
 import Grid from './components/Grid.vue'
+import { nextTick } from 'vue';
 
 export default {
-  components: { Grid, Controller },
+  components: { Grid, Controller, Info },
   name: 'App',
-  mounted(){
-
-  },
   data: function(){
     return {
       speed: 100,
       intervalID: 0,
+      mainComponent: 'gamePage',
+      selectedScenario: 'scenario',
+      importToken: '',
+      exportToken: '',
       message: '',
       isRunning:false,
       isImport: false,
-      mainComponent: 'gamePage',
-      selectedScenario: 'scenario',
-      importToken: ''
+      isNavbar: false,
+      isExport:false
     }
   },
   watch: {
@@ -119,6 +230,13 @@ export default {
     },
   },
   methods:{
+    toClipboard() {
+      this.isExport = false;
+      let copyString = document.querySelector('#copystring');
+      copyString.setAttribute('type', 'text');
+      copyString.select();
+      document.execCommand('copy');
+    },
     delegate(_event) {
       if (_event === 'play') {
         this.isRunning = !this.isRunning;
@@ -137,9 +255,17 @@ export default {
         this.updateMessage(_event);
       }
     },
+    importSession() {
+      this.updateMessage('importSession');
+      this.isImport = false;
+    },
     updateMessage(_newMessage) {
       this.message = _newMessage;
-      this.nextTick(this.resetMessage);
+      nextTick(this.resetMessage);
+    },
+    exportSession(_exportToken) {
+      this.exportToken = _exportToken;
+      this.isExport = true;
     },
     resetMessage(){
       this.message = '';
@@ -161,6 +287,9 @@ export default {
           'nextStep'
         );
       }
+    },
+    swapComponent(_component) {
+      this.mainComponent = _component;
     },
   }
 }
