@@ -15,11 +15,17 @@ export default {
       type: Boolean,
       default: false
     },
+    indexY: {
+      type: Number,
+    },
+    indexX: {
+      type: Number,
+    },
   },
   emits: ['wasUpdated'],
   methods: {
     reborn() {
-      this.$emit('wasUpdated', !this.isAlive);
+      this.$emit('wasUpdated', this.indexX, this.indexY, !this.isAlive);
     },
   }
 }

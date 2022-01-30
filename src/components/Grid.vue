@@ -18,9 +18,10 @@
         <Cell
           v-for="(isAlive, indexY) in col"
           :key="indexY"
+          :indexY="indexY"
+          :indexX="indexX"
           :isAlive="isAlive"
-          :is-mouse-down="isMouseDown"
-          @wasUpdated="updateCellCount"
+          @wasUpdated="setCell"
         />
       </div>
     </div>
