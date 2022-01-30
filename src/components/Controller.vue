@@ -19,8 +19,8 @@
     <p class="control">
       <button
         class="button"
-        title="clear grid"
-        @click="sendEvent('redoSession')">
+        title="Create new one"
+        @click="sendEvent('clear')">
         <i class="fas fa-redo"/>
     </button></p>
     <p class="control">

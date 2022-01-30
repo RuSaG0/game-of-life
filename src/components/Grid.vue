@@ -4,7 +4,7 @@
     :cell-count="matrixSize"
     :cells-alive="cellsAlive"
     :current-speed="currentSpeed"
-    :isCycled="isCycled" />
+    :historyCacher="historyCacher" />
   <div
     class="game-grid columns">
     <div
@@ -17,7 +17,7 @@
         :indexY="indexY"
         :indexX="indexX"
         :isAlive="isAlive"
-        @wasUpdated="changeCellValue"
+        @toggleCell="changeCellValue"
       />
     </div>
   </div>
@@ -29,10 +29,12 @@ import Stats from './Stats.vue'
 import Cell from './Cell.vue'
 
 // Utils
-import CycleDetector from '../utils/cycleDetector';
+import HistoryCacher  from '../utils/cacher';
 
 // Core
 import {markRaw} from 'vue';
+
+const CREATION_TRESHHOLD = .2;
 
 export default {
   components: { Stats, Cell },
@@ -46,7 +48,6 @@ export default {
       type: Number,
     },
   },
-  emits: ['exportToken'],
   data: function(){
     return {
       rows: 40,
@@ -54,7 +55,7 @@ export default {
       matrix: [],
       cellsAlive: 0,
       currentTick: 0,
-      cycleDetector: markRaw(new CycleDetector()),
+      historyCacher: markRaw(new HistoryCacher()),
       isCycled: false
     }
   },
@@ -64,10 +65,12 @@ export default {
         this.cellsAlive = 0;
         this.updateMatrixByEvolution();
         this.currentTick++;
-        this.isCycled = this.isCycled || this.cycleDetector.isCycled(this.matrix);
-      } else if (_text === 'redoSession') {
-        this.reset();
-      } else if (_text === 'randomSeed') {
+        this.historyCacher.updateHistory(this.matrix);
+      } 
+      else if (_text === 'clear') {
+        this.invalidateMatrix();
+      } 
+      else if (_text === 'randomSeed') {
         this.fillMatrixByRandom();
       }
     },
@@ -147,16 +150,11 @@ export default {
       }
       return neighbours;
     },
-    reset() {
-      this.currentTick = 0;
-      this.cellsAlive = 0;
-      this.createFalsyMatrix();
-    },
     fillMatrixByRandom() {
       for (let i = 0; i < this.rows; i++) {
         for (let j = 0; j < this.columns; j++) {
           let rand = Math.random();
-          if (rand < 0.2) {
+          if (rand < CREATION_TRESHHOLD) {
             this.changeCellValue(i, j, true);
           } else {
             this.changeCellValue(i, j, false);
@@ -164,9 +162,13 @@ export default {
         }
       }
     },
-    updateCellCount(_bool) {
-      if (_bool)
-        this.cellsAlive++;
+    updateCellCount(_isAlive) {
+      if (_isAlive) this.cellsAlive++;
+    },
+    invalidateMatrix() {
+      this.currentTick = 0;
+      this.cellsAlive = 0;
+      this.createFalsyMatrix();
     },
   },
 }

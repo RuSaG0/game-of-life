@@ -2,7 +2,7 @@
   <div
     :class="isAlive ? 'alive' : 'dead'"
     class="cell"
-    @mousedown="reborn"
+    @mousedown="toggle"
   />
 </template>
 
@@ -22,10 +22,10 @@ export default {
       type: Number,
     },
   },
-  emits: ['wasUpdated'],
+  emits: ['toggleCell'],
   methods: {
-    reborn() {
-      this.$emit('wasUpdated', this.indexX, this.indexY, !this.isAlive);
+    toggle() {
+      this.$emit('toggleCell', this.indexX, this.indexY, !this.isAlive);
     },
   }
 }
