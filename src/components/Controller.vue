@@ -2,7 +2,6 @@
  <div class="box">
     <p class="control">
       <button
-        :disabled="mainComponent !== 'gamePage'"
         class="button"
         title="slow down"
         @click="sendEvent('slowDown')">
@@ -10,7 +9,6 @@
     </button></p>
     <p class="control">
       <button
-        :disabled="mainComponent !== 'gamePage'"
         :class="isRunning ? 'green' : 'red'"
         class="button"
         title="play"
@@ -20,7 +18,6 @@
     </button></p>
     <p class="control">
       <button
-        :disabled="mainComponent !== 'gamePage'"
         class="button"
         title="clear grid"
         @click="sendEvent('redoSession')">
@@ -28,7 +25,6 @@
     </button></p>
     <p class="control">
       <button
-        :disabled="mainComponent !== 'gamePage'"
         class="button"
         title="next step"
         @click="sendEvent('nextStep')">
@@ -36,7 +32,6 @@
     </button></p>
     <p class="control">
       <button
-        :disabled="mainComponent !== 'gamePage'"
         class="button"
         title="speed up"
         @click="sendEvent('speedUp')">
@@ -44,7 +39,6 @@
     </button></p>
     <p class="control">
       <button
-        :disabled="mainComponent !== 'gamePage'"
         class="button"
         @click="sendEvent('randomSeed')">
         <span class="icon">
@@ -62,10 +56,6 @@ export default {
     isRunning: {
       default: false,
       type: Boolean,
-    },
-    mainComponent: {
-      default: 'gamePage',
-      type: String,
     },
   },
   emits: ['send'],

@@ -1,16 +1,16 @@
 <template>
    <div class="box">
       <div class="column is-size-7-mobile is-half-mobile">
-        <strong>TICK: {{ currentTick }}</strong>
+        <strong>gen # {{ currentTick }}</strong>
       </div>
       <div class="column is-size-7-mobile is-half-mobile">
-        <strong>CELL COUNT: {{ cellCount }}</strong>
+        <strong>max: {{ cellCount }}</strong>
       </div>
       <div class="column is-size-7-mobile is-half-mobile">
-        <strong>CELLS ALIVE: {{ cellsAlive }}</strong>
+        <strong>alive: {{ cellsAlive }} ({{Math.round(cellsAlive * 100 / cellCount) }} %)</strong>
       </div>
       <div class="column is-size-7-mobile is-half-mobile">
-        <strong>SPEED: {{ currentSpeed }} %</strong>
+        <strong>speed: {{ currentSpeed }} %</strong>
       </div>
   </div>
 </template>

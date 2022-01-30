@@ -37,10 +37,8 @@
                 name="fade">
                 <keep-alive>
                   <Grid
-                    v-if="mainComponent == 'gamePage'"
                     :message="message"
                     :current-speed="speed" />
-                  <Info v-else />
                 </keep-alive>
               </transition>
             </div>
@@ -54,7 +52,6 @@
             <div class="column is-fullwidth">
               <Controller
                 :is-running="isRunning"
-                :main-component="mainComponent"
                 @send="delegate($event)"/>
             </div>
           </div>
@@ -67,18 +64,16 @@
 <script>
 // Components
 import Controller from './components/Controller.vue'
-import Info from './components/Info.vue'
 import Grid from './components/Grid.vue'
 import { nextTick } from 'vue';
 
 export default {
-  components: { Grid, Controller, Info },
+  components: { Grid, Controller },
   name: 'App',
   data: function(){
     return {
       speed: 100,
       intervalID: 0,
-      mainComponent: 'gamePage',
       message: '',
       isRunning:false,
       isNavbar: false,
@@ -131,9 +126,6 @@ export default {
           'nextStep'
         );
       }
-    },
-    swapComponent(_component) {
-      this.mainComponent = _component;
     },
   }
 }

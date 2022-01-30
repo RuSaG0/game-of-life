@@ -52,6 +52,7 @@ export default {
   watch: {
     message: function(_text) {
       if (_text === 'nextStep') {
+        this.cellsAlive = 0;
         this.updateMatrixByEvolution();
         this.currentTick++;
       } else if (_text === 'redoSession') {
@@ -156,8 +157,6 @@ export default {
     updateCellCount(_bool) {
       if (_bool)
         this.cellsAlive++;
-      else
-        this.cellsAlive--;
     },
   },
 }
