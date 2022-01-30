@@ -39,10 +39,6 @@ export default {
       default: '',
       type: String,
     },
-    importToken: {
-      default: '',
-      type: String,
-    },
     currentSpeed: {
       default: 0,
       type: Number,
