@@ -47,6 +47,9 @@ export default {
       default: 0,
       type: Number,
     },
+    IButtonActions: {
+      type: Object
+    }
   },
   data: function(){
     return {
@@ -60,18 +63,22 @@ export default {
     }
   },
   watch: {
-    message(_text) {
-      if (_text === 'nextStep') {
-        this.cellsAlive = 0;
-        this.updateMatrixByEvolution();
-        this.currentTick++;
-      } 
-      else if (_text === 'clear') {
-        this.invalidateMatrix();
-      } 
-      else if (_text === 'randomSeed') {
-        this.invalidateMatrix();
-        this.fillMatrixByRandom();
+    message(_event) {
+      const IButtonActions = this.IButtonActions;
+
+      switch(_event) {
+        case IButtonActions.nextStep:
+          this.cellsAlive = 0;
+          this.updateMatrixByEvolution();
+          this.currentTick++;
+          break;
+        case IButtonActions.refresh:
+          this.invalidateMatrix();
+          break;
+        case IButtonActions.createRandomMatrix:
+          this.invalidateMatrix();
+          this.fillMatrixByRandom();
+          break;
       }
     },
   },

@@ -1,4 +1,4 @@
-import Log from "../log/log";
+import Log from "@/infrastructure/log/log";
 
 import { createApp } from 'vue';
 import { createRouter, createWebHashHistory } from "vue-router";

@@ -2,20 +2,20 @@
   <div class="box">
   <button
     class="m-button"
-    @click="sendEvent('slowDown')">
+    @click="sendEvent(IButtonActions.speedDown)">
     Slow
   </button>
 
   <button
     class="m-button"
-    @click="sendEvent('speedUp')">
+    @click="sendEvent(IButtonActions.speedUp)">
       Speed up
     </button>
 
   <template v-if="isRunning">
     <button
       class="m-button-error"
-      @click="sendEvent('togglePlay')">
+      @click="sendEvent(IButtonActions.togglePlay)">
       Stop
     </button>
   </template>
@@ -24,7 +24,7 @@
     <button
       class="m-button"
       title="togglePlay"
-      @click="sendEvent('togglePlay')">
+      @click="sendEvent(IButtonActions.togglePlay)">
       Play
     </button>
   </template>
@@ -32,21 +32,21 @@
   <button
     class="m-button-error"
     title="togglePlay"
-    @click="sendEvent('clear')">
+    @click="sendEvent(IButtonActions.refresh)">
     Clear
   </button>
 
   <button
     class="m-button"
     title="togglePlay"
-    @click="sendEvent('nextStep')">
+    @click="sendEvent(IButtonActions.nextStep)">
     Next step
   </button>
 
   <button
     class="m-button"
     title="togglePlay"
-    @click="sendEvent('randomSeed')">
+    @click="sendEvent(IButtonActions.createRandomMatrix)">
     Random
   </button>
 
@@ -54,6 +54,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'Controller',
   props: {
@@ -61,6 +62,9 @@ export default {
       default: false,
       type: Boolean,
     },
+    IButtonActions: {
+      type: Object
+    }
   },
   emits: ['send'],
   methods: {

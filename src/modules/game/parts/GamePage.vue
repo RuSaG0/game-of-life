@@ -11,6 +11,7 @@
                 name="fade">
                 <keep-alive>
                   <Grid
+                    :IButtonActions="IButtonActions"
                     :message="message"
                     :current-speed="speed" />
                 </keep-alive>
@@ -25,6 +26,7 @@
           <div class="columns">
             <div class="column is-fullwidth">
               <Controller
+                :IButtonActions="IButtonActions"
                 :is-running="isRunning"
                 @send="delegate($event)"/>
             </div>
@@ -36,10 +38,17 @@
 </template>
 
 <script>
+
 // Components
 import Controller from './parts/Controller.vue'
 import Grid from './parts/Grid.vue'
 import { nextTick } from 'vue';
+
+// Utils
+import {IButtonActions} from './utils/buttonsActions';
+
+// Core
+import {markRaw} from 'vue';
 
 export default {
   components: { Grid, Controller },
@@ -50,29 +59,39 @@ export default {
       intervalID: 0,
       message: '',
       isRunning:false,
-      isNavbar: false,
-      isExport:false
+      IButtonActions: markRaw(IButtonActions)
     }
   },
   methods:{
     delegate(_event) {
-      if (_event === 'togglePlay') {
-        this.isRunning = !this.isRunning;
-        this.restartInterval();
-      } else if (_event === 'slowDown') {
-        this.speed > 100 ? this.changeSpeed(-100) : this.changeSpeed(-20);
-        this.restartInterval();
-      } else if (_event === 'speedUp') {
-        this.speed < 100 ? this.changeSpeed(20) : this.changeSpeed(100);
-        this.restartInterval();
-      } 
-      else if (_event === 'clear' || _event === 'randomSeed') {
-        this.isRunning = false;
-        this.restartInterval();
-        this.updateMessage(_event);
-      } 
-      else {
-        this.updateMessage(_event);
+      const IButtonActions = this.IButtonActions;
+      
+      switch(_event) {
+        case IButtonActions.togglePlay:
+          this.isRunning = !this.isRunning;
+          this.restartInterval();
+          break;
+        case IButtonActions.speedDown:
+          this.speed > 100 ? this.changeSpeed(-100) : this.changeSpeed(-20);
+          this.restartInterval();
+          break;
+        case IButtonActions.speedUp:
+          this.speed < 100 ? this.changeSpeed(20) : this.changeSpeed(100);
+          this.restartInterval();
+          break;
+        case IButtonActions.refresh:
+          this.isRunning = false;
+          this.restartInterval();
+          this.updateMessage(_event);
+          break;
+        case IButtonActions.createRandomMatrix:
+          this.isRunning = false;
+          this.restartInterval();
+          this.updateMessage(_event);
+          break;
+        default:
+          this.updateMessage(_event);
+          break;
       }
     },
     updateMessage(_newMessage) {
