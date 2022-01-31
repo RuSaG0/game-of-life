@@ -9,6 +9,7 @@ export default class {
 
   invalidate(){
     this.#p_cached = [];
+    this.#p_isCycled = false;
   }
 
   get isCycled() {
