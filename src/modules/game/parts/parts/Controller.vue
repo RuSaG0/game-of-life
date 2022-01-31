@@ -1,17 +1,22 @@
 <template>
   <div class="box">
-  <button
-    class="m-button"
+
+  <div class="buttonWrapper">
+    <p class="m-p">Speed: </p>
+  <div
+    class="iconWrapper iconWrapper"
     @click="sendEvent(IButtonActions.speedDown)">
-    Slow
-  </button>
+    <ArrowDownIcon class="arrowDownIcon arrowDownIcon-down"/>
+  </div>
 
-  <button
-    class="m-button"
+  <div
+    class="iconWrapper iconWrapper-up"
     @click="sendEvent(IButtonActions.speedUp)">
-      Speed up
-    </button>
+    <ArrowDownIcon class="arrowDownIcon arrowDownIcon-up"/>
+  </div>
 
+  </div>
+  
   <template v-if="isRunning">
     <button
       class="m-button-error"
@@ -49,11 +54,12 @@
     @click="sendEvent(IButtonActions.createRandomMatrix)">
     Random
   </button>
-
   </div>
 </template>
 
 <script>
+// Icons
+import ArrowDownIcon from '@/assets/icons/arrow__down';
 
 export default {
   name: 'Controller',
@@ -67,6 +73,9 @@ export default {
     }
   },
   emits: ['send'],
+  components: {
+    ArrowDownIcon
+  },
   methods: {
     sendEvent(_event) {
       this.$emit('send', _event);
@@ -83,5 +92,29 @@ export default {
     align-items: center;
     justify-content: space-between;
     background: white;
+  }
+
+  .buttonWrapper{
+    display: flex;
+    align-content: center;
+    .iconWrapper{
+      margin-left: 10px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      .arrowDownIcon{
+        width:12px;
+        &-down {
+          transform: rotate(90deg);
+        }
+        &-up {
+          transform: rotate(-90deg);
+        }
+        &:hover {
+          fill: var(--primary100);
+        }
+      }
+    }
   }
 </style>
