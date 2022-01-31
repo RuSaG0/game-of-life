@@ -1,5 +1,4 @@
 <template>
-<h2 class="m-h2">Game </h2>
 <div class="GOL">
     <section class="hero primary-background">
       <div class="hero-body">

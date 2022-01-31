@@ -8,7 +8,7 @@ export default class {
 
   async installAsync(_app) {
     _app.interfaces.configuration = {
-      modules: [] //["mcdis.webmodules.test.12345"]
+      modules: []
     };
   }
 }

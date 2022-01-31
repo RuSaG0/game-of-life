@@ -8,11 +8,20 @@
     @click="sendEvent(IButtonActions.speedDown)">
     <ArrowDownIcon class="arrowDownIcon arrowDownIcon-down"/>
   </div>
-
   <div
     class="iconWrapper iconWrapper-up"
     @click="sendEvent(IButtonActions.speedUp)">
     <ArrowDownIcon class="arrowDownIcon arrowDownIcon-up"/>
+  </div>
+
+  </div>
+
+  <div class="buttonWrapper">
+    <p class="m-p">Evolution: </p>
+  <div
+    class="iconWrapper iconWrapper"
+    @click="sendEvent(IButtonActions.nextStep)">
+    <ArrowDownIcon class="arrowDownIcon arrowDownIcon-next"/>
   </div>
 
   </div>
@@ -39,13 +48,6 @@
     title="togglePlay"
     @click="sendEvent(IButtonActions.refresh)">
     Clear
-  </button>
-
-  <button
-    class="m-button"
-    title="togglePlay"
-    @click="sendEvent(IButtonActions.nextStep)">
-    Next step
   </button>
 
   <button
@@ -97,18 +99,19 @@ export default {
   .buttonWrapper{
     display: flex;
     align-content: center;
-    .iconWrapper{
-      margin-left: 10px;
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
+    .iconWrapper {
+      margin-left: 5px;
+      width: 20px;
       cursor: pointer;
       .arrowDownIcon{
         width:12px;
         &-down {
-          transform: rotate(90deg);
+          transform: rotate(0deg);
         }
         &-up {
+          transform: rotate(180deg);
+        }
+        &-next{
           transform: rotate(-90deg);
         }
         &:hover {

@@ -45,8 +45,7 @@ export default {
 
 <style scoped lang="scss">
 .box {
-  background-color: #e7eef5;
-  color:black;
+  color:var(--text80);
   display: flex;
   align-items:center;
   justify-content: space-between;
