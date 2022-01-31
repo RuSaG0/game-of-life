@@ -61,6 +61,9 @@ export default {
       IButtonActions: markRaw(IButtonActions)
     }
   },
+  beforeUnmount(){
+    this.clearInterval(this.intervalID);
+  },
   methods:{
     delegate(_event) {
       const IButtonActions = this.IButtonActions;
