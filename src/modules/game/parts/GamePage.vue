@@ -56,7 +56,7 @@ export default {
   },
   methods:{
     delegate(_event) {
-      if (_event === 'play') {
+      if (_event === 'togglePlay') {
         this.isRunning = !this.isRunning;
         this.restartInterval();
       } else if (_event === 'slowDown') {
@@ -65,7 +65,13 @@ export default {
       } else if (_event === 'speedUp') {
         this.speed < 100 ? this.changeSpeed(20) : this.changeSpeed(100);
         this.restartInterval();
-      } else {
+      } 
+      else if (_event === 'clear' || _event === 'randomSeed') {
+        this.isRunning = false;
+        this.restartInterval();
+        this.updateMessage(_event);
+      } 
+      else {
         this.updateMessage(_event);
       }
     },

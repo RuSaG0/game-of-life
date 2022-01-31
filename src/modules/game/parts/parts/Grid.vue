@@ -60,17 +60,17 @@ export default {
     }
   },
   watch: {
-    message: function(_text) {
+    message(_text) {
       if (_text === 'nextStep') {
         this.cellsAlive = 0;
         this.updateMatrixByEvolution();
         this.currentTick++;
-        this.historyCacher.updateHistory(this.matrix);
       } 
       else if (_text === 'clear') {
         this.invalidateMatrix();
       } 
       else if (_text === 'randomSeed') {
+        this.invalidateMatrix();
         this.fillMatrixByRandom();
       }
     },
@@ -127,6 +127,7 @@ export default {
           this.changeCellValue(i, j, tempArr[i][j]);
         }
       }
+      this.historyCacher.updateHistory(tempArr);
     },
     getNeighbours(_posX, _posY) {
       let neighbours = 0;
@@ -169,6 +170,7 @@ export default {
       this.currentTick = 0;
       this.cellsAlive = 0;
       this.createFalsyMatrix();
+      this.historyCacher.invalidate()
     },
   },
 }

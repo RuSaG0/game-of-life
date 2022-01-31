@@ -15,7 +15,7 @@
   <template v-if="isRunning">
     <button
       class="m-button-error"
-      @click="sendEvent('play')">
+      @click="sendEvent('togglePlay')">
       Stop
     </button>
   </template>
@@ -23,29 +23,29 @@
   <template v-else>
     <button
       class="m-button"
-      title="play"
-      @click="sendEvent('play')">
+      title="togglePlay"
+      @click="sendEvent('togglePlay')">
       Play
     </button>
   </template>
 
   <button
     class="m-button-error"
-    title="play"
+    title="togglePlay"
     @click="sendEvent('clear')">
     Clear
   </button>
 
   <button
     class="m-button"
-    title="play"
+    title="togglePlay"
     @click="sendEvent('nextStep')">
     Next step
   </button>
 
   <button
     class="m-button"
-    title="play"
+    title="togglePlay"
     @click="sendEvent('randomSeed')">
     Random
   </button>

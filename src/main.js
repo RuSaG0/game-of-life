@@ -10,7 +10,7 @@ import MainMenuModule from "./modules/mainMenu/mainMenuModule";
 
 import GamePack from './modules/game/gameModule';
 import InfoPack from './modules/info/infoModule';
-
+import GreetingPack from './modules/greetings/greetingsModule';
 // *********************************************************
 // Setup version
 // *********************************************************
@@ -34,12 +34,12 @@ app
   .use(new TopLevelAppViewModule())
   .use(new MainMenuModule())
   
-// Game
+// Sections
 app
   .use(new GamePack())
-// Info
-app
+  .use(new GreetingPack())
   .use(new InfoPack())
+  
 
 appLogUngroup();
 setTimeout(async () => await app.runAsync(), 0);
